@@ -6,13 +6,15 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 const Fractions = () => import('./Fractions.vue');
+const Websocket = () => import('./Websocket.vue');
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 
 const router = new VueRouter({
   routes: [
-    { path: '/fractions', component: Fractions }
+    { path: '/fractions', component: Fractions },
+    { path: '/websocket', component: Websocket }
   ]
 })
 
