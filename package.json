@@ -16,7 +16,8 @@
     "vue": "^2.5.3",
     "vue-native-websocket": "^2.0.5",
     "vue-numeric": "^2.3.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

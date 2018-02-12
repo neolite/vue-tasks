@@ -5,7 +5,7 @@
             <ul class="list-unstyled justify-content-md-start">
                 <li v-for="comment in comments" :key="comment.id">
                     {{comment.text}}
-                   <button aria-hidden="true" @click="removeComment(comment.id)" :disabled="!connected">(удалить)</button>
+                   <button aria-hidden="true" @click="removeComment(comment.id)" :disabled="!socket.isConnected">(удалить)</button>
                 </li>
             </ul>
         </b-col>
@@ -15,41 +15,51 @@
 
 <script>
   import Vue from 'vue'
-  import VueNativeSock from 'vue-native-websocket'
+  import Vuex, { mapState } from 'vuex'
+  import VueWS from 'vue-native-websocket'
+  import Observer from 'vue-native-websocket/src/Observer'
+  import store from './store'
 
-  Vue.use(VueNativeSock, 'ws://echo.websocket.org', { format: 'json' });
+  Vue.use(Vuex);
+  Vue.use(VueWS, 'ws://echo.websocket.org', {
+    store,
+    reconnection: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 3000,
+    format: 'json'
+  });
 
   export default {
     name: 'websocket',
-    data:() => ({
-        comments: [
-          { id: 1, text: 'Тестовый коммент 1' },
-          { id: 2, text: 'Это шедевр'},
-          { id: 3, text:  'Это прекрасно'},
-          { id: 4, text: 'Лучшее, что я видел'},
-          { id: 5, text:  'Два чая этому автору'},
-          { id: 6, text:  'Три чая этому автору'},
-          { id: 7, text:  'Карету этому автору'},
-          { id: 8, text:  'Машину этому автору'},
-          { id: 9, text:  'Суперигра!'},
-          { id: 10, text:  'Черный ящик'},
-        ],
-        connected: false
-    }),
-    created() {
-      this.$options.sockets.onmessage = (data) => {
-        const { id } = JSON.parse(data.data);
-        this.removeFromComments(id);
-      };
-      this.$options.sockets.onopen = () => this.connected = true;
+    store,
+    computed: mapState([
+      'comments',
+      'socket'
+    ]),
+    created () {
+      this.unsubscribe = this.$store.subscribe((mutation, state) => {
+        if (mutation.type === 'SOCKET_ONCLOSE' ||
+          (mutation.type === 'SOCKET_ONERROR' && !state.websocket.socket.isConnected && !state.websocket.socket.isReconnecting)) {
+          this.reconnectWebSocket()
+        }
+      })
     },
     methods: {
-      removeComment: function(id) {
+      removeComment: function (id) {
         this.$socket.sendObj({id: id});
       },
-      removeFromComments(id) {
-        this.comments = this.comments.filter(c => c.id !== id);
+      reconnectWebSocket() {
+        setTimeout(() => {
+          this.$store.commit('SOCKET_ONRECONNECTING', this.$socket)
+          this.$socket = new Observer(wsEndpoint, wsOptions)
+          this.$socket.onopen = () => {
+            this.$store.commit('SOCKET_ONOPEN', this.$socket)
+          }
+        }, 2000)
       }
+    },
+    beforeDestroy () {
+      this.unsubscribe.call();
     }
   }
 </script>
