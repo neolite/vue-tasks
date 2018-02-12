@@ -5,6 +5,7 @@ import App from './App.vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+const Home = () => import('./pages/home/Home.vue');
 const Fractions = () => import('./pages/fractions/Fractions.vue');
 const Websocket = () => import('./pages/websocket/Websocket.vue');
 
@@ -13,13 +14,14 @@ Vue.use(BootstrapVue);
 
 const router = new VueRouter({
   routes: [
+    { path: '/', component: Home },
     { path: '/fractions', component: Fractions },
     { path: '/websocket', component: Websocket }
   ]
-})
+});
 
 new Vue({
   router,
   el: '#app',
   render: h => h(App)
-})
+});
