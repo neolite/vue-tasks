@@ -5731,6 +5731,10 @@ vue-loader@^13.5.0:
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.6.0"
 
+vue-native-websocket@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/vue-native-websocket/-/vue-native-websocket-2.0.5.tgz#9ce4d72db6d28c8310899ed3b8b448fe16b74936"
+
 vue-numeric@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/vue-numeric/-/vue-numeric-2.3.0.tgz#d6e5aa7c5035a86f2e36481fb1fd0fe2bc445f92"

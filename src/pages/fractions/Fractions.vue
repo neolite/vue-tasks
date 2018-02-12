@@ -9,7 +9,6 @@
                            <span class="line"></span>
                            <vue-numeric class="number" :empty-value="1" :max="99" :value="fraction.d"></vue-numeric>
                        </div>
-
                     </span>
                     <span v-for="(frac, index) in fractions" class="fraction d-flex flex-row justify-content-around">
                         <div class="d-flex flex-column justify-content-between align-items-center">
@@ -23,9 +22,7 @@
                     </span>
                 </div>
             </b-col>
-
         </b-row>
-
         <b-row>
             <b-col></b-col>
             <b-col cols="3" md="auto">
@@ -38,13 +35,13 @@
         </b-row>
     </div>
 </template>
-
 <script>
   const Fraction = require('fraction.js');
+
   import VueNumeric from 'vue-numeric';
 
   export default {
-    name: "fractions",
+    name: 'fractions',
     computed: {
       fraction() {
         return this.fractions.reduce((acc, n) => this.calculateFraction(acc, new Fraction(n.numer, n.denom), n.op), new Fraction(0,1));
@@ -97,7 +94,6 @@
     }
   }
 </script>
-
 <style scoped>
 .number {
     width: 1.75em;

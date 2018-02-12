@@ -5,8 +5,8 @@ import App from './App.vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-const Fractions = () => import('./Fractions.vue');
-const Websocket = () => import('./Websocket.vue');
+const Fractions = () => import('./pages/fractions/Fractions.vue');
+const Websocket = () => import('./pages/websocket/Websocket.vue');
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
